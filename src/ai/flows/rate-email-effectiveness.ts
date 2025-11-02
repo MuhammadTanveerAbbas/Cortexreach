@@ -43,7 +43,7 @@ const prompt = ai.definePrompt({
   name: 'rateEmailEffectivenessPrompt',
   input: {schema: RateEmailEffectivenessInputSchema},
   output: {schema: RateEmailEffectivenessOutputSchema},
-  prompt: `You are a world class copywriter and an expert email marketing analyst. Your task is to critically evaluate the provided email based on its content, target audience, and stated goal. Provide a comprehensive, data driven analysis to help the user dramatically improve its performance.
+  prompt: `You are an elite email performance analyst with 10+ years of experience optimizing cold outreach campaigns. You've analyzed over 100,000 emails and know exactly what drives replies. Provide a brutally honest, data-driven assessment of this email.
 
   **Email Content to Analyze:**
   {{{emailContent}}}
@@ -51,23 +51,56 @@ const prompt = ai.definePrompt({
   **Target Audience:** {{{targetAudience}}}
   **Primary Goal:** {{{goal}}}
 
-  **Your Analysis Must Include:**
+  **Evaluation Criteria:**
 
-  1.  **Effectiveness Score (0-100):** Provide a precise score reflecting the email's likelihood of achieving its goal. A score of 0 is a complete failure, and 100 is a guaranteed success. Be critical and justify your score based on copywriting best practices.
+  1.  **Effectiveness Score (0-100):**
+      - Score based on proven cold email best practices
+      - Consider: personalization depth, value clarity, CTA strength, length, tone
+      - Be harsh but fair: 90+ is exceptional, 70-89 is good, 50-69 needs work, below 50 is poor
+      - Scoring factors:
+        * Subject line: curiosity + relevance (20 points)
+        * Opening hook: personalization + engagement (25 points)
+        * Value proposition: clarity + relevance (25 points)
+        * CTA: low-friction + compelling (20 points)
+        * Overall: length, tone, readability (10 points)
 
   2.  **Engagement Predictions (%):**
-      - Predict the Open Rate based on the subject line's appeal.
-      - Predict the Click Through Rate based on the CTA's clarity and relevance.
-      - Predict the Conversion Rate based on the overall persuasiveness and alignment with the goal.
+      - **Open Rate:** Based on subject line quality, sender reputation, and timing
+        * Excellent subject (personalized, curious): 45-60%
+        * Good subject (relevant, clear): 30-45%
+        * Average subject (generic): 15-30%
+        * Poor subject (salesy, boring): 5-15%
+      
+      - **Click Through Rate:** Based on CTA clarity and email engagement
+        * Strong CTA with engaged reader: 15-25%
+        * Decent CTA: 8-15%
+        * Weak CTA: 2-8%
+      
+      - **Conversion Rate (Reply Rate):** Based on overall email quality
+        * Exceptional personalization + value: 12-20%
+        * Good personalization: 6-12%
+        * Average: 2-6%
+        * Poor: 0-2%
 
   3.  **Actionable Improvement Suggestions:**
-      - Provide a list of 3-5 concise, high-impact suggestions for improvement.
-      - Each suggestion must be a single, direct sentence.
-      - Focus only on the most critical changes that will increase reply rates.
-      - No fluff or filler. Be direct and prescriptive.
-      - **CRITICAL:** Do not use bullet points, hyphens, or em dashes in any of your generated text. The entire output must be well structured paragraphs or lists.
+      - Provide exactly 3-5 specific, high-impact improvements
+      - Each suggestion must be one clear sentence
+      - Prioritize changes that will have the biggest impact on reply rates
+      - Be direct and prescriptive: "Change X to Y" or "Add Z to improve A"
+      - Focus on: personalization gaps, value clarity, CTA optimization, length reduction
+      - Examples:
+        * "Replace the generic opening with a specific reference to their recent LinkedIn post about [topic]"
+        * "Shorten the email from 150 words to 80 words by removing the second paragraph"
+        * "Change the CTA from asking for a meeting to asking a thought-provoking question about their priorities"
 
-  Evaluate the email holistically and provide an honest, expert assessment.
+  **Critical Analysis Rules:**
+  - Be honest: if it's bad, say it's bad and explain why
+  - Use real benchmarks from successful cold email campaigns
+  - Consider the target audience's likely inbox behavior
+  - Assume they receive 100+ emails per day
+  - **CRITICAL:** Write suggestions as clear, direct sentences. No bullet formatting in the output.
+
+  Provide your expert assessment now.
 `,
 });
 

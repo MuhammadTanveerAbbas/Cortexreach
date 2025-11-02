@@ -1,15 +1,18 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   transpilePackages: ['next-themes'],
-  typescript: {
-    ignoreBuildErrors: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
+  poweredByHeader: false,
+  compress: true,
   images: {
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',

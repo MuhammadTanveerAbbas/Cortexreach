@@ -1,15 +1,36 @@
 {
   "name": "cortexreach",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "AI-Powered Cold Outreach Revolution - Transform cold leads into warm conversations",
+  "author": "Muhammad Tanveer Abbas <https://github.com/MuhammadTanveerAbbas>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MuhammadTanveerAbbas/CortexReach"
+  },
+  "keywords": [
+    "ai",
+    "email",
+    "cold-outreach",
+    "sales-automation",
+    "nextjs",
+    "typescript"
+  ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "NODE_ENV=production next build",
+    "build": "next build",
+    "build:analyze": "ANALYZE=true npm run build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"const fs=require('fs');['.next','out','dist'].forEach(d=>{try{fs.rmSync(d,{recursive:true,force:true})}catch(e){}})\"",
+    "preview": "npm run build && npm run start",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
@@ -53,6 +74,7 @@
     "react-hook-form": "^7.54.2",
     "recharts": "^2.15.1",
     "tailwind-merge": "^3.0.1",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.2"
   },
@@ -60,8 +82,11 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.3.3",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
+    "prettier": "^3.6.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

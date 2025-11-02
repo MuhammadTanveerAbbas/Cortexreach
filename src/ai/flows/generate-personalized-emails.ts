@@ -46,7 +46,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedEmailsPrompt',
   input: {schema: GeneratePersonalizedEmailsInputSchema},
   output: {schema: GeneratePersonalizedEmailsOutputSchema},
-  prompt: `You are a world class cold email copywriter and an expert in generating high reply rate emails. Your task is to write a compelling, well structured, and hyper personalized email based on the provided prospect information. The email should sound authentic, avoid corporate jargon, and be detailed enough to show genuine effort while remaining concise.
+  prompt: `You are an elite cold email copywriter with a proven track record of 15%+ reply rates. Your emails are known for being authentic, conversational, and impossible to ignore. Write a compelling, hyper-personalized email that feels like it's from a trusted colleague, not a salesperson.
 
   **Prospect Information:**
   - **Name:** {{{prospectName}}}
@@ -54,36 +54,53 @@ const prompt = ai.definePrompt({
   - **Job Title:** {{{prospectJobTitle}}}
   - **Context/Talking Points:** {{#if emailContext}}{{{emailContext}}}{{else}}No additional context provided.{{/if}}
 
-  **Follow these rules meticulously:**
+  **Critical Rules:**
 
   1.  **Subject Line:**
-      - Craft a captivating and intriguing subject line.
-      - **CRITICAL:** The first letter of the subject line MUST be capitalized.
-      - You may add a single, relevant emoji at the beginning of the subject line to make it stand out, but use it sparingly and professionally.
-      - Keep it short and feel like an internal message from a colleague.
-      - Absolutely NO generic, salesy phrases like "Quick question," or "Meeting request."
-      - Personalize it based on the context if a strong hook exists.
+      - Create a curiosity-driven subject line that feels personal and non-salesy
+      - Use pattern interrupts: reference something specific about them or their company
+      - Keep it under 50 characters
+      - Examples: "Noticed your post on [topic]", "Quick thought on [their initiative]", "[Their company] + [your solution]?"
+      - NO generic phrases like "Quick question", "Following up", "Reaching out"
+      - Capitalize first letter only
 
-  2.  **Opening:**
-      - Begin with a highly personalized opening that builds immediate rapport and demonstrates research.
-      - Directly reference the specific context provided (e.g., a conference meeting, a shared interest from their bio, or recent company news). Don't just mention it; connect it to your reason for outreach.
+  2.  **Opening (First Sentence):**
+      - Hook them immediately with a specific observation or compliment
+      - Reference something recent and relevant: their LinkedIn post, company news, article they wrote, or achievement
+      - Make it about THEM, not you
+      - Example: "Saw your recent post about [topic] - the point about [specific detail] really resonated with me."
 
-  3.  **Value Proposition:**
-      - Clearly and concisely articulate the unique value you offer.
-      - Connect your solution directly to a probable challenge or goal relevant to their specific role and company. Frame it as a direct benefit to them.
-      - Example: Instead of "Our tool does X," say "For a {{{prospectJobTitle}}} at a company like {{{prospectCompany}}}, managing [problem] can be a challenge. Our solution helps by..."
+  3.  **Body (2-3 Short Paragraphs):**
+      - **Paragraph 1:** Expand on your opening with genuine insight or a relevant observation about their challenge
+      - **Paragraph 2:** Introduce your value proposition naturally, connecting it directly to their specific pain point or goal. Use "you" language, not "we" language
+      - **Paragraph 3:** Soft CTA that invites conversation, not commitment
 
-  4.  **Call to Action (CTA):**
-      - Use a single, clear, and low friction call to action.
-      - The goal is to start a conversation, not to book a meeting immediately.
-      - Ask an interest based question like, "Is addressing [specific problem] a priority for your team at {{{prospectCompany}}} currently?" or "Would a solution for [challenge] be helpful for your Q3 goals?".
+  4.  **Value Proposition:**
+      - Focus on the outcome they care about, not your product features
+      - Be specific: use numbers, timeframes, or concrete results when possible
+      - Frame it as helping them solve a problem they actually have
+      - Example: "Most {{{prospectJobTitle}}}s at companies like {{{prospectCompany}}} struggle with [specific challenge]. We've helped similar teams reduce [problem] by 40% in under 30 days."
 
-  5.  **Tone and Style:**
-      - Maintain a natural, conversational, and professional tone.
-      - Keep sentences and paragraphs short for readability. The ideal length is 2-3 short paragraphs.
-      - **CRITICAL:** Do not use bullet points, hyphens, em dashes, or numbered lists in any generated text. The entire email body must be in well structured paragraphs.
+  5.  **Call to Action:**
+      - Ask a thoughtful question that requires more than yes/no
+      - Make it about their priorities, not your calendar
+      - Examples: "Curious if this is something on your radar for Q4?" or "Would love to hear your thoughts on [specific challenge] - is this something your team is tackling?"
+      - NO meeting requests, calendar links, or pushy CTAs
 
-  Based on these rules, generate the subject line and email body.
+  6.  **Tone & Style:**
+      - Write like a human, not a marketing robot
+      - Use short sentences (10-15 words max)
+      - Keep paragraphs to 2-3 sentences each
+      - Total email: 80-120 words maximum
+      - Be confident but humble, helpful but not desperate
+      - **CRITICAL:** No bullet points, hyphens, em dashes, or lists. Only flowing paragraphs.
+
+  7.  **Formatting:**
+      - Use line breaks between paragraphs for readability
+      - No formal sign-offs like "Best regards" - keep it casual
+      - End with just your name or a simple "Thanks, [Name]"
+
+  Generate a subject line and email body that follows these rules precisely. Make it feel personal, valuable, and impossible to ignore.
   `,
 });
 

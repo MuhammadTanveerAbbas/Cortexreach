@@ -1,42 +1,66 @@
-import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+import Script from 'next/script';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "CortexReach",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  description:
-    "An intelligent AI co-pilot for high-impact cold outreach that helps you research prospects, draft hyper-personalized emails, and analyze their effectiveness in one seamless workflow.",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "89",
-  },
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-  },
-};
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "CortexReach",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://cortexreach.vercel.app'),
+  title: 'CortexReach - AI Powered Cold Outreach Revolution',
   description:
-    "Turn cold leads into warm conversations with an AI co-pilot for high impact cold outreach that drives replies. Try our demo and see how AI can transform your results.",
-  keywords:
-    "AI outreach, cold email, sales automation, lead generation, B2B sales",
+    'Transform cold outreach with AI. Research prospects, craft hyper personalized emails, and predict success rates. 3x higher reply rates, 89% time saved.',
+  keywords: [
+    'AI email',
+    'cold outreach',
+    'sales automation',
+    'email personalization',
+    'AI sales tool',
+    'prospect research',
+  ],
+  authors: [{ name: 'Muhammad Tanveer Abbas', url: 'https://github.com/MuhammadTanveerAbbas' }],
+  creator: 'Muhammad Tanveer Abbas',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://cortexreach.vercel.app',
+    title: 'CortexReach - AI Powered Cold Outreach Revolution',
+    description: 'Transform cold outreach with AI. 3x higher reply rates, 89% time saved.',
+    siteName: 'CortexReach',
+    images: [
+      {
+        url: '/favicon.svg',
+        width: 1200,
+        height: 1200,
+        alt: 'CortexReach Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CortexReach - AI Powered Cold Outreach',
+    description: 'Transform cold outreach with AI. 3x higher reply rates, 89% time saved.',
+    creator: '@m_tanveerabbas',
+    images: ['/favicon.svg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -45,30 +69,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark">
       <head>
-        <link rel="icon" href="/fevicon.png" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body
-        className={cn(
-          "font-body antialiased",
-          inter.variable,
-          spaceGrotesk.variable
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
+          </>
         )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+      </head>
+      <body className={inter.className}>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
