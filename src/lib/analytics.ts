@@ -1,13 +1,13 @@
 export const analytics = {
   event: (name: string, params?: Record<string, unknown>) => {
     if (typeof window !== 'undefined' && (window as Window & { gtag?: (...args: unknown[]) => void }).gtag) {
-      (window as Window & { gtag: (...args: unknown[]) => void }).gtag('event', name, params);
+      ((window as unknown) as Window & { gtag: (...args: unknown[]) => void }).gtag('event', name, params);
     }
   },
   
   pageView: (url: string) => {
     if (typeof window !== 'undefined' && (window as Window & { gtag?: (...args: unknown[]) => void }).gtag) {
-      (window as Window & { gtag: (...args: unknown[]) => void }).gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
+      ((window as unknown) as Window & { gtag: (...args: unknown[]) => void }).gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
         page_path: url,
       });
     }
