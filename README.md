@@ -1,225 +1,182 @@
 <div align="center">
 
-# CortexReach 📧 Your Personalized Email Generator ✨
+# 📧 CortexReach
 
-![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/shadcn/ui-latest-black?style=for-the-badge&logo=shadcn-ui&logoColor=white)
-![Google AI](https://img.shields.io/badge/Google_AI-Gemini-orange?style=for-the-badge&logo=google&logoColor=white)
+### AI-Powered Cold Email Generator
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=nextdotjs)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth-green?style=for-the-badge&logo=supabase)](https://supabase.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+**Generate personalized cold outreach emails using AI**
+
+[Live Demo](https://cortexreach.vercel.app) • [Report Bug](https://github.com/MuhammadTanveerAbbas/CortexReach/issues) • [Request Feature](https://github.com/MuhammadTanveerAbbas/CortexReach/issues)
 
 </div>
 
 ---
 
-## 💡 What is CortexReach?
+## 🎯 What It Does
 
-**CortexReach** is an **AI powered email generation tool** that creates **highly personalized cold outreach emails** instantly.  
-Paste prospect information like LinkedIn profiles, bios, and social posts, and receive professional, customized emails with **predicted engagement scores and improvement suggestions**.
+CortexReach helps you write personalized cold emails faster. Paste prospect information, and AI generates a customized email with:
 
----
+- Personalized email body based on prospect details
+- Subject line suggestions
+- Effectiveness score (0-100)
+- Optimization tips
 
-## 🚀 Why Use CortexReach?
-
-### ⚡ Save Time  
-Generate personalized, data driven emails in **minutes instead of hours**.
-
-### 🧩 Precision Targeting  
-AI analyzes each prospect’s profile and crafts relevant, compelling emails.
-
-### 🧾 Professional Output  
-Get **ready to send emails** with suggestions for subject lines, tone, and style.
-
-### 🧠 Engagement Insights  
-Receive effectiveness predictions, spam risk assessment, and improvement recommendations.
-
-### 🌐 Easy Access  
-No complicated setup just paste prospect info and start generating emails.
-
----
-
-## 🧩 Problems CortexReach Solves
-
-### 🚦 Writer’s Block  
-Never struggle to find the right words for cold outreach again.
-
-### 🔍 Ineffective Outreach  
-AI ensures emails are tailored to each prospect and optimizes engagement potential.
-
-### 💬 Communication Gaps  
-Bridges the gap between raw prospect data and actionable outreach.
-
-### 📊 Time Management  
-Automates repetitive email generation, freeing you to focus on high value tasks.
+**Note:** This is a tool to help draft emails faster. Results depend on the quality of prospect information you provide.
 
 ---
 
 ## ✨ Features
 
-- 📝 **AI Powered Email Generation** : Personalized based on prospect data  
-- 📊 **Engagement Scoring** : 0 to 100 effectiveness metrics  
-- 💡 **Improvement Suggestions** : Optimize subject lines, content, and tone  
-- ✏️ **Rich Text Editor** : Customize generated emails  
-- 📎 **Clipboard Copy & History** : Save and reuse emails  
-- 💾 **Local Draft Auto Save** : Never lose your work  
-- 🔓 **No Authentication Needed** : Start immediately  
+| Feature | Description |
+|---------|-------------|
+| 🤖 **AI Generation** | Uses Google Gemini & Groq to create personalized emails |
+| 📊 **Effectiveness Score** | Get AI predictions on email performance |
+| 💾 **Auto-Save** | Drafts saved automatically in browser |
+| 📤 **Export** | Download as TXT, HTML, or JSON |
+| 🎨 **Rich Editor** | Format emails with bold, italic, lists |
+| 🔐 **Auth** | Secure login with Supabase |
+| 📱 **Responsive** | Works on desktop, tablet, and mobile |
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Quick Start
 
-| Category | Technology |
-|-----------|-------------|
-| **Frontend** | [Next.js 15](https://nextjs.org/) (App Router), [React 18](https://react.dev/), [TypeScript 5](https://www.typescriptlang.org/) |
-| **Styling** | [Tailwind CSS 3](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/) |
-| **Icons** | [Lucide React](https://lucide.dev/) |
-| **AI Engine** | [Google Gemini 2.5 Flash](https://ai.google.dev/) |
-| **Hosting** | [Vercel](https://vercel.com/) |
+### Prerequisites
 
----
+- Node.js 18+
+- Google AI API key → [Get it here](https://ai.google.dev/)
+- Groq API key → [Get it here](https://console.groq.com/)
+- Supabase account → [Sign up](https://supabase.com/)
 
-## ⚙️ Getting Started
-
-### ✅ Prerequisites
-
-- Node.js **18+**
-- npm **8+**
-- Google AI API key ([Get here](https://ai.google.dev/))
-
-### 🧰 Installation
+### Installation
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/MuhammadTanveerAbbas/CortexReach.git
 cd CortexReach
 
 # Install dependencies
 npm install
 
-# Set up environment variables
-cp .env.local.example .env.local
-# Add your Google AI API key to .env.local
-
-# Start the development server
-npm run dev
-````
-
-Visit 👉 [http://localhost:3000](http://localhost:3000)
-
----
-
-### 🔑 Environment Variables
-
-Create a `.env.local` file in the root directory:
-
-```env
-GOOGLE_GENAI_API_KEY=your_google_ai_api_key_here
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+# Setup environment variables
+cp .env.example .env.local
 ```
 
+### Environment Variables
+
+Create `.env.local` with:
+
+```env
+# AI APIs
+GOOGLE_GENAI_API_KEY=your_google_ai_key
+GROQ_API_KEY=your_groq_key
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_KEY=your_service_key
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
 ---
 
-### ☁️ Deployment (Vercel)
+## 📖 How to Use
 
-1. Push your project to GitHub
-2. Import into [Vercel](https://vercel.com/)
-3. Add environment variables:
+1. **Sign Up** - Create a free account
+2. **Add Prospect Info** - Paste LinkedIn profile, bio, or any details
+3. **Generate** - AI creates personalized email
+4. **Review & Edit** - Customize the generated content
+5. **Analyze** - Check effectiveness score
+6. **Export** - Copy or download
 
-   * **GOOGLE_GENAI_API_KEY** = Your Google AI key
-   * **NEXT_PUBLIC_APP_URL** = Your deployment URL
-4. Deploy 🚀
-
----
-
-## 📖 Usage
-
-1. Navigate to `/tool`
-2. Paste prospect information (LinkedIn, bio, articles)
-3. Optionally add name, company, job title
-4. Click **Generate Personalized Email**
-5. Review and edit the email
-6. Click **Analyze Effectiveness** for scoring
-7. Copy final email to clipboard
+### Free Plan Limits
+- 5 email generations per day
+- Basic AI features
+- Email effectiveness scoring
 
 ---
 
-## 👨‍💻 Development
+## 🛠️ Tech Stack
 
-### 📁 Project Structure
+**Frontend**
+- Next.js 15 (App Router)
+- React 18
+- TypeScript 5
+- Tailwind CSS
+- shadcn/ui components
+
+**Backend**
+- Supabase (Auth & Database)
+- Google Gemini 2.5 Flash
+- Groq AI
+
+**Deployment**
+- Vercel
+
+---
+
+## 📁 Project Structure
 
 ```
 CortexReach/
 ├── src/
-│   ├── app/         # Next.js App Router pages
-│   ├── components/  # Reusable UI components
-│   ├── ai/          # AI integration flows
-│   ├── lib/         # Utility functions
-│   └── hooks/       # Custom React hooks
-├── public/          # Static assets
-└── docs/            # Documentation
+│   ├── app/              # Next.js pages
+│   ├── components/       # React components
+│   ├── lib/              # Utilities
+│   └── ai/               # AI flows
+├── public/               # Static assets
+└── supabase/             # Database schema
 ```
 
-### 🤝 Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repo
+2. Create your branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'Add feature'`)
+4. Push to branch (`git push origin feature/amazing`)
 5. Open a Pull Request
 
 ---
 
-## 🔒 Privacy
+## 📝 License
 
-* 🔑 API keys stored securely in environment variables
-* 🚫 No permanent data storage on servers
-* ⚡ Data processed only during email generation
-* 💾 Local storage used for drafts/history
+MIT License - see [LICENSE](LICENSE)
 
 ---
 
-## 🗺️ Roadmap
+## 👨‍💻 Author
 
-* [ ] Email templates library
-* [ ] CRM integrations
-* [ ] Bulk email generation
-* [ ] A/B testing support
-* [ ] Analytics dashboard
-* [ ] Team collaboration features
+**Muhammad Tanveer Abbas**
 
----
-
-## 💬 Support
-
-* 🐛 [Issues](https://github.com/MuhammadTanveerAbbas/CortexReach/issues)
-* 💭 [Discussions](https://github.com/MuhammadTanveerAbbas/CortexReach/discussions)
-
----
-
-## 📄 License
-
-MIT License - see the [LICENSE](LICENSE) file for details.
+- Portfolio: [muhammadtanveerabbas.vercel.app](https://muhammadtanveerabbas.vercel.app/)
+- GitHub: [@MuhammadTanveerAbbas](https://github.com/MuhammadTanveerAbbas)
+- LinkedIn: [muhammadtanveerabbas](https://linkedin.com/in/muhammadtanveerabbas)
 
 ---
 
 <div align="center">
 
-# 👨‍💻 Muhammad Tanveer Abbas
+### ⭐ Star this repo if you find it useful!
 
-**SaaS MVP Developer** • **AI Integration Expert** • **Full Stack Developer**
-
-⚡ Specialized in Building Production Ready SaaS MVPs for founders in Weeks
-
-**Next.js • TypeScript • Firebase • AI • Tailwind CSS**
-
-💼 **[View Portfolio](https://muhammadtanveerabbas.vercel.app/)**
-
----
-
-⭐ **Star this repo** if you find it inspiring!
-
-Built with ❤️ to showcase professional SaaS MVP development.
+Made with ❤️ using Next.js and AI
 
 </div>

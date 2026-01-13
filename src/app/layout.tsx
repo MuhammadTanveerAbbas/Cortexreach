@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     siteName: 'CortexReach',
     images: [
       {
-        url: '/favicon.svg',
-        width: 1200,
-        height: 1200,
-        alt: 'CortexReach Logo',
+        url: '/icon-512.svg',
+        width: 512,
+        height: 512,
+        alt: 'CortexReach - AI Powered Cold Outreach',
       },
     ],
   },
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: 'CortexReach - AI Powered Cold Outreach',
     description: 'Transform cold outreach with AI. 3x higher reply rates, 89% time saved.',
     creator: '@m_tanveerabbas',
-    images: ['/favicon.svg'],
+    images: ['/icon-512.svg'],
   },
   robots: {
     index: true,
@@ -56,9 +56,13 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+      { url: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' },
+    ],
     shortcut: '/favicon.svg',
-    apple: '/favicon.svg',
+    apple: '/icon-192.svg',
   },
   manifest: '/manifest.json',
 };
@@ -70,7 +74,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
+      <body className={inter.className}>
+        {children}
+        <Toaster />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
@@ -87,10 +93,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-      </head>
-      <body className={inter.className}>
-        {children}
-        <Toaster />
       </body>
     </html>
   );

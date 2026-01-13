@@ -1,19 +1,24 @@
 {
-  "name": "CortexReach - AI-Powered Cold Outreach",
+  "name": "CortexReach - AI Powered Cold Outreach",
   "short_name": "CortexReach",
   "description": "Transform cold outreach with AI. 3x higher reply rates, 89% time saved.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#000000",
+  "theme_color": "#0ea5e9",
   "icons": [
     {
-      "src": "/fevicon.png",
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/fevicon.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

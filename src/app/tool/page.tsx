@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useTransition, useRef, useEffect } from 'react';
+import { useState, useTransition, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Skeleton, SkeletonCard } from '@/components/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   Loader,
   Pen,
@@ -28,6 +29,9 @@ import {
   CheckCircle,
   BarChart3,
   Send,
+  Download,
+  FileText,
+  Keyboard,
 } from 'lucide-react';
 import { generatePersonalizedEmails } from '@/ai/flows/generate-personalized-emails';
 import {
@@ -75,6 +79,7 @@ export default function ComposerPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [generationProgress, setGenerationProgress] = useState(0);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const { toast } = useToast();
 
   // State for Prospect
@@ -92,6 +97,41 @@ export default function ComposerPage() {
   // State for Email Rater
   const [effectivenessResult, setEffectivenessResult] =
     useState<RateEmailEffectivenessOutput | null>(null);
+
+  // Keyboard shortcuts
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      switch (e.key) {
+        case 'Enter':
+          e.preventDefault();
+          if (!isGenerating && prospectDetails.trim()) {
+            // handleGenerateEmail will be called directly
+          }
+          break;
+        case 'e':
+          e.preventDefault();
+          if (!isAnalyzing && (subject.trim() || body.trim())) {
+            // handleAnalyzeEmail will be called directly
+          }
+          break;
+        case 'c':
+          if (e.shiftKey) {
+            e.preventDefault();
+            // handleCopyEmail will be called directly
+          }
+          break;
+        case '/':
+          e.preventDefault();
+          setShowKeyboardShortcuts(!showKeyboardShortcuts);
+          break;
+      }
+    }
+  }, [isGenerating, isAnalyzing, prospectDetails, subject, body, showKeyboardShortcuts]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -140,6 +180,65 @@ export default function ComposerPage() {
     }
   };
 
+  const handleExportEmail = (format: 'txt' | 'html' | 'json') => {
+    if (!subject && !body) {
+      toast({
+        variant: 'destructive',
+        title: 'Nothing to Export',
+        description: 'Please generate or write an email first.',
+      });
+      return;
+    }
+
+    let content = '';
+    let filename = '';
+    let mimeType = '';
+
+    switch (format) {
+      case 'txt':
+        content = `Subject: ${subject}\n\n${body.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n').trim()}`;
+        filename = `email-${Date.now()}.txt`;
+        mimeType = 'text/plain';
+        break;
+      case 'html':
+        content = `<!DOCTYPE html><html><head><title>${subject}</title></head><body><h2>${subject}</h2><div>${body}</div></body></html>`;
+        filename = `email-${Date.now()}.html`;
+        mimeType = 'text/html';
+        break;
+      case 'json':
+        content = JSON.stringify({
+          subject,
+          body: body.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n').trim(),
+          htmlBody: body,
+          prospectName: prospectName || 'Unknown',
+          prospectCompany: prospectCompany || '',
+          prospectJobTitle: prospectJobTitle || '',
+          generatedAt: new Date().toISOString(),
+          effectivenessScore: effectivenessResult?.effectivenessScore || null,
+        }, null, 2);
+        filename = `email-${Date.now()}.json`;
+        mimeType = 'application/json';
+        break;
+    }
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    trackEvent.emailCopied();
+
+    toast({
+      title: '✅ Email Exported',
+      description: `Email exported as ${format.toUpperCase()} file.`,
+    });
+  };
+
   const handleGenerateEmail = () => {
     if (!prospectDetails.trim()) {
       toast({
@@ -153,19 +252,50 @@ export default function ComposerPage() {
     setCurrentStep(2);
     startGenerating(async () => {
       try {
+        // Check usage limit
+        const usageResponse = await fetch('/api/usage');
+        const usageData = await usageResponse.json();
+        
+        if (usageData.remaining <= 0) {
+          toast({
+            variant: 'destructive',
+            title: 'Daily Limit Reached',
+            description: 'You\'ve reached your daily generation limit. Upgrade to Premium for more.',
+          });
+          setCurrentStep(1);
+          return;
+        }
+
         setSubject('');
         setBody('');
         setInsights('');
         setEffectivenessResult(null);
         setGenerationProgress(0);
 
-        // Step 1: Analyze prospect
-        setGenerationProgress(25);
+        // Simulate realistic progress updates
+        const updateProgress = (progress: number) => {
+          setGenerationProgress(progress);
+        };
+
+        // Step 1: Analyze prospect with progress simulation
+        updateProgress(15);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        updateProgress(30);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        updateProgress(45);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        
         const summaryResult = await summarizeProspectInsights({ prospectDetails });
         setInsights(summaryResult.summary);
+        updateProgress(60);
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-        // Step 2: Generate email
-        setGenerationProgress(75);
+        // Step 2: Generate email with progress simulation
+        updateProgress(75);
+        await new Promise(resolve => setTimeout(resolve, 600));
+        updateProgress(88);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        
         const emailResult = await generatePersonalizedEmails({
           prospectName: prospectName || 'there',
           prospectCompany: prospectCompany || 'your company',
@@ -173,9 +303,13 @@ export default function ComposerPage() {
           emailContext: summaryResult.summary,
         });
 
-        setGenerationProgress(100);
+        updateProgress(96);
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
         setSubject(emailResult.subjectLine);
         setBody(emailResult.body);
+        updateProgress(100);
+        await new Promise(resolve => setTimeout(resolve, 200));
         setCurrentStep(3);
 
         trackEvent.emailGenerated(prospectName);
@@ -186,6 +320,7 @@ export default function ComposerPage() {
         });
       } catch {
         setCurrentStep(1);
+        setGenerationProgress(0);
         toast({
           variant: 'destructive',
           title: 'Generation Failed',
@@ -279,6 +414,44 @@ export default function ComposerPage() {
         isVisible ? 'animate-fade-in' : 'opacity-0'
       }`}
     >
+      {/* Keyboard Shortcuts Help */}
+      {showKeyboardShortcuts && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Keyboard className="h-5 w-5" />
+                Keyboard Shortcuts
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Generate Email</span>
+                <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Enter</kbd>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Analyze Email</span>
+                <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+E</kbd>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Copy Email</span>
+                <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Shift+C</kbd>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm">Toggle Shortcuts</span>
+                <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+/</kbd>
+              </div>
+              <Button 
+                className="w-full mt-4" 
+                onClick={() => setShowKeyboardShortcuts(false)}
+              >
+                Close
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Progress Indicator */}
       <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="container py-2.5 md:py-4">
@@ -365,7 +538,7 @@ export default function ComposerPage() {
                 <Textarea
                   id="prospect-details"
                   placeholder="Paste LinkedIn profile, bio, recent articles, or any prospect information here...\n\nExample: 'Sarah Chen is VP of Marketing at TechCorp. She recently published an article about AI in marketing automation and is passionate about data-driven strategies.'"
-                  className="min-h-[150px] md:min-h-[200px] resize-none border-2 focus:border-primary/50 transition-colors pr-4 text-sm scrollbar-thin scrollbar-thumb-sky-500 scrollbar-track-muted hover:scrollbar-thumb-sky-600"
+                  className="min-h-[180px] md:min-h-[240px] resize-none border-2 focus:border-primary/50 transition-colors pr-4 text-sm scrollbar-thin scrollbar-thumb-sky-500 scrollbar-track-muted hover:scrollbar-thumb-sky-600"
                   value={prospectDetails}
                   onChange={(e) => setProspectDetails(e.target.value)}
                 />
@@ -437,7 +610,7 @@ export default function ComposerPage() {
                   ) : (
                     <>
                       <Sparkles className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                      <span>Generate Personalized Email</span>
+                      <span>Generate Email (Ctrl+Enter)</span>
                     </>
                   )}
                 </Button>
@@ -513,10 +686,11 @@ export default function ComposerPage() {
                     </Label>
                     <Input
                       id="subject"
-                      placeholder="Your compelling subject line will appear here..."
+                      placeholder={isGenerating ? "AI is crafting your subject line..." : "Your compelling subject line will appear here..."}
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                       className="border-2 focus:border-primary/50 transition-colors text-sm md:text-base font-medium"
+                      disabled={isGenerating}
                     />
                   </div>
 
@@ -581,11 +755,11 @@ export default function ComposerPage() {
                       </div>
                       <div
                         ref={editorRef}
-                        contentEditable
+                        contentEditable={!isGenerating}
                         onInput={handleBodyChange}
-                        className="p-4 md:p-6 text-sm md:text-base ring-offset-background focus-visible:outline-none min-h-[150px] md:min-h-[200px] flex-1 overflow-y-auto leading-relaxed"
-                        style={{ minHeight: '150px' }}
-                        data-placeholder="Your personalized email content will appear here..."
+                        className={`p-4 md:p-6 text-sm md:text-base ring-offset-background focus-visible:outline-none min-h-[200px] md:min-h-[280px] flex-1 overflow-y-auto leading-relaxed ${isGenerating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        style={{ minHeight: '200px' }}
+                        data-placeholder={isGenerating ? "AI is writing your personalized email..." : "Your personalized email content will appear here..."}
                       />
                     </div>
                   </div>
@@ -606,7 +780,7 @@ export default function ComposerPage() {
                         ) : (
                           <>
                             <BarChart3 className="mr-2 h-4 w-4 group-hover:animate-bounce-subtle" />
-                            <span className="text-sm">Analyze Effectiveness</span>
+                            <span className="text-sm">Analyze (Ctrl+E)</span>
                           </>
                         )}
                       </Button>
@@ -618,7 +792,41 @@ export default function ComposerPage() {
                         disabled={!subject.trim() && !body.trim()}
                       >
                         <Copy className="mr-2 h-4 w-4" />
-                        <span className="text-sm">Copy Email</span>
+                        <span className="text-sm">Copy</span>
+                      </Button>
+                    </div>
+                    
+                    {/* Export Options */}
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border hover:border-primary/50"
+                        onClick={() => handleExportEmail('txt')}
+                        disabled={!subject.trim() && !body.trim()}
+                      >
+                        <FileText className="mr-2 h-3 w-3" />
+                        <span className="text-xs">Export TXT</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border hover:border-primary/50"
+                        onClick={() => handleExportEmail('html')}
+                        disabled={!subject.trim() && !body.trim()}
+                      >
+                        <Download className="mr-2 h-3 w-3" />
+                        <span className="text-xs">Export HTML</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border hover:border-primary/50"
+                        onClick={() => handleExportEmail('json')}
+                        disabled={!subject.trim() && !body.trim()}
+                      >
+                        <Download className="mr-2 h-3 w-3" />
+                        <span className="text-xs">Export JSON</span>
                       </Button>
                     </div>
 
@@ -636,6 +844,26 @@ export default function ComposerPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                className="rounded-full shadow-lg"
+                onClick={() => setShowKeyboardShortcuts(true)}
+              >
+                <Keyboard className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>Keyboard Shortcuts (Ctrl+/)</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
       {(isAnalyzing || effectivenessResult) && (

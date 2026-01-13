@@ -114,8 +114,8 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -123,13 +123,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(234 179 8);
-  border-radius: 10px;
-  transition: background 0.3s ease;
+  background: transparent;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(250 204 21);
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+* {
+  -ms-overflow-style: none;
 }
 
 /* Tailwind scrollbar utilities */
@@ -223,4 +227,60 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Responsive touch targets */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  h1 { font-size: 1.875rem !important; line-height: 2.25rem !important; }
+  h2 { font-size: 1.5rem !important; line-height: 2rem !important; }
+  h3 { font-size: 1.25rem !important; line-height: 1.75rem !important; }
+  p { font-size: 0.875rem !important; line-height: 1.5rem !important; }
+  .text-base { font-size: 0.875rem !important; }
+  .text-lg { font-size: 0.9375rem !important; }
+  .text-xl { font-size: 1rem !important; }
+  .text-2xl { font-size: 1.25rem !important; }
+  .text-3xl { font-size: 1.5rem !important; }
+  .text-4xl { font-size: 1.875rem !important; }
+  .text-5xl { font-size: 2.25rem !important; }
+  .text-6xl { font-size: 2.5rem !important; }
+  .text-7xl { font-size: 3rem !important; }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent layout shift */
+@layer base {
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Container max-width */
+.container {
+  max-width: 1280px;
+}
+
+/* Focus visible improvements */
+*:focus-visible {
+  outline: 2px solid rgb(14 165 233);
+  outline-offset: 2px;
+}
+
+/* Improved transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }

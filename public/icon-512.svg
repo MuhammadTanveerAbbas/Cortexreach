@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="256" cy="256" r="230" fill="url(#grad1)"/>
+  
+  <path d="M154 230 L256 154 L358 230 L358 307 L256 358 L154 307 Z" fill="white" opacity="0.95"/>
+  
+  <path d="M154 230 L256 281 L358 230" stroke="url(#grad1)" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <circle cx="179" cy="179" r="13" fill="url(#grad2)"/>
+  <circle cx="256" cy="144" r="13" fill="url(#grad2)"/>
+  <circle cx="333" cy="179" r="13" fill="url(#grad2)"/>
+  <circle cx="213" cy="213" r="11" fill="url(#grad2)" opacity="0.7"/>
+  <circle cx="299" cy="213" r="11" fill="url(#grad2)" opacity="0.7"/>
+  
+  <path d="M179 179 L213 213 M256 144 L213 213 M256 144 L299 213 M333 179 L299 213" stroke="url(#grad2)" stroke-width="8" opacity="0.5" stroke-linecap="round"/>
+</svg>

@@ -9,8 +9,8 @@
  * - GeneratePersonalizedEmailsOutput - The return type for the generatePersonalizedEmails function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 
 const GeneratePersonalizedEmailsInputSchema = z.object({
   prospectName: z.string().describe('The name of the prospect.'),
@@ -44,9 +44,9 @@ export async function generatePersonalizedEmails(
 
 const prompt = ai.definePrompt({
   name: 'generatePersonalizedEmailsPrompt',
-  input: {schema: GeneratePersonalizedEmailsInputSchema},
-  output: {schema: GeneratePersonalizedEmailsOutputSchema},
-  prompt: `You are an elite cold email copywriter with a proven track record of 15%+ reply rates. Your emails are known for being authentic, conversational, and impossible to ignore. Write a compelling, hyper-personalized email that feels like it's from a trusted colleague, not a salesperson.
+  input: { schema: GeneratePersonalizedEmailsInputSchema },
+  output: { schema: GeneratePersonalizedEmailsOutputSchema },
+  prompt: `You are an elite cold email copywriter with a proven track record of 15%+ reply rates. Your emails are known for being authentic, conversational, and impossible to ignore. Write a compelling, hyper personalized email that feels like it's from a trusted colleague, not a salesperson.
 
   **Prospect Information:**
   - **Name:** {{{prospectName}}}
@@ -111,7 +111,7 @@ const generatePersonalizedEmailsFlow = ai.defineFlow(
     outputSchema: GeneratePersonalizedEmailsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const { output } = await prompt(input);
     if (!output) {
       throw new Error("AI model failed to generate a response.");
     }

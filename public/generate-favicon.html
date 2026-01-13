@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Favicon</title>
+</head>
+<body>
+  <canvas id="canvas" width="512" height="512"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Create gradient
+    const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+    gradient.addColorStop(0, '#0ea5e9');
+    gradient.addColorStop(1, '#3b82f6');
+    
+    // Draw brain outline
+    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.ellipse(256, 256, 180, 200, 0, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.globalAlpha = 1;
+    
+    // Neural network nodes
+    const nodes = [
+      [179, 179], [256, 153], [333, 179],
+      [153, 256], [256, 256], [358, 256],
+      [179, 333], [256, 358], [333, 333]
+    ];
+    
+    // Draw connections
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 10;
+    ctx.globalAlpha = 0.6;
+    
+    const connections = [
+      [0,1], [1,2], [0,3], [1,4], [2,5],
+      [3,4], [4,5], [3,6], [4,7], [5,8],
+      [6,7], [7,8]
+    ];
+    
+    connections.forEach(([a, b]) => {
+      ctx.beginPath();
+      ctx.moveTo(nodes[a][0], nodes[a][1]);
+      ctx.lineTo(nodes[b][0], nodes[b][1]);
+      ctx.stroke();
+    });
+    
+    ctx.globalAlpha = 1;
+    
+    // Draw nodes
+    nodes.forEach(([x, y], i) => {
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, i === 4 ? 25 : 20, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    
+    // Draw email envelope
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 10;
+    ctx.strokeRect(358, 102, 77, 61);
+    ctx.beginPath();
+    ctx.moveTo(358, 102);
+    ctx.lineTo(396, 133);
+    ctx.lineTo(435, 102);
+    ctx.stroke();
+    
+    // Download
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.download = 'favicon-512.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }, 100);
+  </script>
+</body>
+</html>
